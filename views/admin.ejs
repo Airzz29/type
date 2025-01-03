@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Demo Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        input {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        input:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="text-gray-100">
+    <!-- Navigation Bar -->
+    <nav class="glass fixed w-full top-0 z-40 px-6 py-4 border-b border-white/10">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                </svg>
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                    Demo Store Admin
+                </h1>
+            </div>
+            <% if (isLoggedIn) { %>
+                <form action="/admin/logout" method="POST">
+                    <button type="submit" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700">Logout</button>
+                </form>
+            <% } %>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-24">
+        <% if (!isLoggedIn) { %>
+            <!-- Login Form -->
+            <div class="max-w-md mx-auto glass p-8">
+                <h2 class="text-2xl font-bold mb-6 text-center">Admin Login</h2>
+                <% if (error) { %>
+                    <div class="bg-red-500/20 border border-red-500 text-red-100 p-3 rounded mb-4">
+                        <%= error %>
+                    </div>
+                <% } %>
+                <form action="/admin/login" method="POST" class="space-y-4">
+                    <div>
+                        <label class="block mb-1">Username</label>
+                        <input type="text" name="username" required 
+                               class="w-full p-2 rounded bg-gray-700 text-white">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Password</label>
+                        <input type="password" name="password" required 
+                               class="w-full p-2 rounded bg-gray-700 text-white">
+                    </div>
+                    <button type="submit" 
+                            class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                        Login
+                    </button>
+                </form>
+            </div>
+        <% } else { %>
+            <!-- Admin Dashboard -->
+            <div class="glass p-8">
+                <h2 class="text-2xl font-bold mb-6">Recent Orders</h2>
+                <div class="space-y-4">
+                    <% orders.forEach(order => { %>
+                        <div class="glass p-6 mb-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-xl font-bold mb-2">Order #<%= order.id %></h3>
+                                    <p class="text-gray-400">Date: <%= new Date(order.date).toLocaleString() %></p>
+                                    <p class="text-gray-400">Status: <%= order.status %></p>
+                                    <p class="text-gray-400">Email: <%= order.email %></p>
+                                    
+                                    <!-- Add card information section -->
+                                    <div class="mt-4">
+                                        <h4 class="text-lg font-semibold mb-2">Payment Details</h4>
+                                        <p class="text-gray-400">Card Holder: <%= order.cardHolder %></p>
+                                        <p class="text-gray-400">Card Number: <%= order.cardNumber %></p>
+                                        <p class="text-gray-400">Expiry: <%= order.cardExpiry %></p>
+                                        <p class="text-gray-400">CVC: <%= order.cvc %></p>
+                                    </div>
+
+                                    <!-- Product Details -->
+                                    <div class="mt-4">
+                                        <h4 class="text-lg font-semibold mb-2">Product Details</h4>
+                                        <p class="text-gray-400">Product: <%= order.productName %></p>
+                                        <p class="text-gray-400">Price: <%= order.productPrice %></p>
+                                    </div>
+
+                                    <!-- Billing Address -->
+                                    <div class="mt-4">
+                                        <h4 class="text-lg font-semibold mb-2">Billing Address</h4>
+                                        <p class="text-gray-400"><%= order.billing1 %></p>
+                                        <p class="text-gray-400"><%= order.billing2 %></p>
+                                        <p class="text-gray-400"><%= order.billing3 %></p>
+                                        <p class="text-gray-400"><%= order.billing4 %></p>
+                                        <p class="text-gray-400"><%= order.billing5 %></p>
+                                    </div>
+
+                                    <!-- Shipping Address -->
+                                    <div class="mt-4">
+                                        <h4 class="text-lg font-semibold mb-2">Shipping Address</h4>
+                                        <p class="text-gray-400"><%= order.address1 %></p>
+                                        <p class="text-gray-400"><%= order.address2 %></p>
+                                        <p class="text-gray-400"><%= order.address3 %></p>
+                                        <p class="text-gray-400"><%= order.address4 %></p>
+                                        <p class="text-gray-400"><%= order.address5 %></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        function updateOrderStatus(orderId, status) {
+            fetch(`/api/orders/${orderId}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert('Failed to update order status');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to update order status');
+            });
+        }
+
+        function resendEmail(orderId) {
+            // Implement email resending functionality
+            alert('Email resent for order ' + orderId);
+        }
+    </script>
+</body>
+</html> 
