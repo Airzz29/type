@@ -4,10 +4,7 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: |
-      npm install --unsafe-perm
-      npm rebuild sqlite3
-      npm rebuild puppeteer
+    buildCommand: npm install
     startCommand: |
       mkdir -p /data
       chmod 777 /data
