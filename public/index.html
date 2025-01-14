@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+        
+        .card {
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .modal {
+            display: none;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .modal-content {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #60a5fa;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient 15s ease infinite;
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .animate-slideUp {
+            animation: slideUp 1s ease forwards;
+        }
+
+        .animate-slideIn {
+            animation: slideIn 1s ease forwards;
+        }
+
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="text-gray-100">
+    <!-- Navigation Bar -->
+    <nav class="glass fixed w-full top-0 z-40 px-6 py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Fraud Store</h1>
+            <div class="space-x-6">
+                <a href="#" class="nav-link">Home</a>
+                <a href="orders.html" class="nav-link" id="ordersTab">Orders</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Updated Hero Section -->
+    <section class="relative overflow-hidden py-32 mt-16">
+        <!-- Animated background gradient -->
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-600/10 z-0 animate-gradient"></div>
+        
+        <!-- Hero content -->
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <!-- Animated title -->
+                <h1 class="text-5xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent animate-fadeIn">
+                    Refund Methods Hub
+                </h1>
+
+                <!-- Animated description -->
+                <p class="text-xl text-gray-300 mb-12 opacity-0 animate-slideUp">
+                    Access premium refund methods for popular platforms.<br>
+                    Detailed guides and proven strategies for successful results.
+                </p>
+
+                <!-- Features grid with animations -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="glass p-6 text-left opacity-0 animate-slideIn" style="animation-delay: 200ms;">
+                        <div class="text-blue-400 mb-3">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Proven Methods</h3>
+                        <p class="text-gray-400">Step-by-step guides with proven success rates</p>
+                    </div>
+                    
+                    <div class="glass p-6 text-left opacity-0 animate-slideIn" style="animation-delay: 400ms;">
+                        <div class="text-purple-400 mb-3">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Instant Access</h3>
+                        <p class="text-gray-400">Get immediate access to all methods after purchase</p>
+                    </div>
+                    
+                    <div class="glass p-6 text-left opacity-0 animate-slideIn" style="animation-delay: 600ms;">
+                        <div class="text-blue-400 mb-3">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Support Templates</h3>
+                        <p class="text-gray-400">Pre-written templates for every situation</p>
+                    </div>
+                </div>
+
+                <!-- Social Media Icons with animations -->
+                <div class="flex justify-center items-center space-x-12 mb-12 opacity-0 animate-fadeIn" style="animation-delay: 800ms;">
+                    <a href="https://www.instagram.com/resellvendorhub/" 
+                       target="_blank"
+                       class="transform hover:scale-110 transition-transform">
+                        <svg class="w-12 h-12 text-white hover:text-blue-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="https://www.instagram.com/resellvendorhub/" 
+                       target="_blank"
+                       class="transform hover:scale-110 transition-transform">
+                        <svg class="w-12 h-12 text-white hover:text-pink-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Animated CTA Button -->
+                <button onclick="document.getElementById('methodsSection').scrollIntoView({behavior: 'smooth'})" 
+                        class="bg-gradient-to-r from-blue-500 to-purple-600 px-8 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-105 animate-bounce">
+                    View Methods
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methods Section -->
+    <div id="methodsSection" class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Your existing product cards here -->
+        </div>
+    </div>
+
+
+    <!-- Purchase Modal -->
+    <div id="purchaseModal" class="modal fixed inset-0 z-50 flex items-center justify-center">
+        <div class="modal-content rounded-lg p-8 max-w-md w-full mx-4 relative">
+            <!-- Add close button -->
+            <button onclick="closePurchaseModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <!-- Step 1: Form -->
+            <div id="step1">
+                <h2 class="text-2xl font-bold mb-4">Purchase Information</h2>
+                <form id="purchaseForm" class="space-y-4">
+                    <div>
+                        <label class="block mb-1">Name</label>
+                        <input type="text" required class="w-full p-2 rounded bg-gray-700 text-white" name="name">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Middle Name</label>
+                        <input type="text" class="w-full p-2 rounded bg-gray-700 text-white" name="middleName">
+                    </div>
+                    <div class="relative">
+                        <label class="block mb-1">Phone Number</label>
+                        <input type="tel" 
+                               pattern="[0-9]{10}" 
+                               maxlength="10"
+                               placeholder="Enter phone number" 
+                               class="w-full p-2 rounded bg-gray-700 text-white" 
+                               name="phone">
+                        <span class="absolute top-8 right-3 text-sm text-gray-400">(Not Required)</span>
+                    </div>
+                    <div>
+                        <label class="block mb-1">Card Number (16 digits)</label>
+                        <input type="text" 
+                               required 
+                               class="w-full p-2 rounded bg-gray-700 text-white" 
+                               name="cardNumber" 
+                               placeholder="xxxx xxxx xxxx xxxx" 
+                               maxlength="19">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block mb-1">Expiry Date (MM/YY)</label>
+                            <input type="text" 
+                                   required 
+                                   class="w-full p-2 rounded bg-gray-700 text-white" 
+                                   name="expiry" 
+                                   placeholder="MM/YY" 
+                                   maxlength="5">
+                        </div>
+                        <div>
+                            <label class="block mb-1">CVC (3 digits)</label>
+                            <input type="text" 
+                                   required 
+                                   class="w-full p-2 rounded bg-gray-700 text-white" 
+                                   name="cvc" 
+                                   placeholder="xxx" 
+                                   maxlength="3">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-1">Card Holder Name</label>
+                        <input type="text" required class="w-full p-2 rounded bg-gray-700 text-white" name="cardHolder">
+                    </div>
+                    <div class="relative">
+                        <label class="block mb-1">Email</label>
+                        <input type="email" 
+                               placeholder="Enter email" 
+                               class="w-full p-2 rounded bg-gray-700 text-white" 
+                               name="email">
+                        <span class="absolute top-8 right-3 text-sm text-gray-400">(Not Required - For Receipt)</span>
+                    </div>
+                    <button type="button" onclick="showSummary()" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Next</button>
+                </form>
+            </div>
+
+            <!-- Step 2: Summary -->
+            <div id="step2" class="hidden">
+                <h2 class="text-2xl font-bold mb-4">Order Summary</h2>
+                <div id="orderSummary" class="space-y-2 mb-4"></div>
+                <button onclick="completePurchase()" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Complete Purchase</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- After the Purchase Modal -->
+    <div id="cnfansModal" class="modal fixed inset-0 z-50 flex items-center justify-center">
+        <div class="modal-content rounded-lg p-8 max-w-md w-full mx-4 relative">
+            <h2 class="text-2xl font-bold mb-4">CNFans Method</h2>
+            
+            <!-- Close button -->
+            <button onclick="closeCnfansModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            
+            <!-- Blurred Steps with preview -->
+            <div id="blurredSteps" class="space-y-4 mb-6">
+                <div class="glass p-4 blur-[2px]">
+                    <h3 class="font-bold">Step 1: Order Verification</h3>
+                    <p>Ensure your order is confirmed and...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 2: Support Contact</h3>
+                    <p>Contact customer support regarding...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 3: Documentation</h3>
+                    <p>Prepare necessary evidence of...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 4: Resolution</h3>
+                    <p>Complete the process and receive...</p>
+                </div>
+            </div>
+
+            <!-- Unlock Button -->
+            <div class="text-center">
+                <p class="mb-4 text-gray-400">Unlock full access to detailed steps for AUD$4</p>
+                <button onclick="openCnfansPayment()" 
+                        class="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-2 rounded hover:from-blue-600 hover:to-blue-700 transition-all">
+                    Unlock Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Free Shipping Modal -->
+    <div id="freeShippingModal" class="modal fixed inset-0 z-50 flex items-center justify-center">
+        <div class="modal-content rounded-lg p-8 max-w-md w-full mx-4 relative">
+            <h2 class="text-2xl font-bold mb-4">Free Shipping Method</h2>
+            
+            <!-- Close button -->
+            <button onclick="closeFreeShippingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            
+            <!-- Blurred Steps -->
+            <div id="freeShippingSteps" class="space-y-4 mb-6">
+                <div class="glass p-4 blur-[2px]">
+                    <h3 class="font-bold">Step 1: Cart Setup</h3>
+                    <p>Learn the specific cart setup required for free shipping...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 2: Shipping Tricks</h3>
+                    <p>Discover the methods to bypass shipping fees...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 3: Location Settings</h3>
+                    <p>Configure your location settings correctly...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 4: Checkout Process</h3>
+                    <p>Complete the checkout process with free shipping...</p>
+                </div>
+            </div>
+
+            <!-- Unlock Button -->
+            <div class="text-center">
+                <p class="mb-4 text-gray-400">Unlock full access to detailed steps for AUD$7</p>
+                <button onclick="openFreeShippingPayment()" 
+                        class="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-2 rounded hover:from-blue-600 hover:to-blue-700 transition-all">
+                    Unlock Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content container - adjust top padding for nav bar -->
+    <div class="container mx-auto px-4 py-24">
+        <h1 class="text-4xl font-bold text-center mb-8">Fraud Store</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Store Items -->
+            <div class="card glass p-6">
+                <img src="/images/airpods.png" alt="AirPods" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">AirPods Reciept Generator</h3>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$10</p>
+                    <button onclick="openPurchaseModal('AirPods Demo', 10)" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="card glass p-6 hover:bg-white/[0.08]">
+                <img src="/images/cnfans.png" alt="CNFans Method" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">CNFans Method AUD$4</h3>
+                <p class="text-gray-400 mt-2">Learn how to get refunds on your orders</p>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$4</p>
+                    <button onclick="openCnfansModal()" 
+                            class="bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-2 rounded hover:from-blue-600 hover:to-blue-700">
+                        Buy Now
+                    </button>
+                </div>
+            </div>
+
+                <!-- Add Free Shipping Method card next to it -->
+    <div class="card glass p-6">
+        <img src="/images/cnfans.png" alt="Free Shipping Method" class="w-full h-48 object-contain mb-4">
+        <h3 class="text-xl font-bold">Cnfans/pandabuy Free Shipping Method</h3>
+        <p class="text-gray-400 mt-2 mb-4">Learn how to get free shipping on all orders</p>
+        <div class="flex justify-between items-center mt-4">
+            <p class="text-gray-400">Price: AUD$7</p>
+            <button onclick="openFreeShippingModal()" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">
+                View Method
+            </button>
+        </div>
+    </div>
+
+            <div class="card glass p-6">
+                <img src="/images/applewatch.png" alt="Apple Watch" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">Apple Watch Vendor</h3>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$10</p>
+                    <button onclick="openPurchaseModal('Apple Watch Demo', 10)" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="card glass p-6">
+                <img src="/images/gift card gen.png" alt="Gift Card" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">Gift Card Genrator</h3>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$100</p>
+                    <button onclick="openPurchaseModal('Gift Card Demo', 100)" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="card glass p-6">
+                <img src="/images/msr.png" alt="MSR" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">MSR Demo</h3>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$40</p>
+                    <button onclick="openPurchaseModal('MSR Demo', 40)" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="card glass p-6">
+                <img src="/images/paypal.png" alt="PayPal" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">PayPal Log AUD$100</h3>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$50</p>
+                    <button onclick="openPurchaseModal('PayPal Demo AUD$100', 50)" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="card glass p-6">
+                <img src="/images/paypal.png" alt="PayPal" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">PayPal log AUD$50</h3>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$25</p>
+                    <button onclick="openPurchaseModal('PayPal Demo AUD$50', 25)" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="card glass p-6">
+                <img src="/images/paypal.png" alt="PayPal" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">PayPal log AUD$150</h3>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$65</p>
+                    <button onclick="openPurchaseModal('PayPal Demo AUD$150', 65)" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="card glass p-6">
+                <img src="/images/paypal.png" alt="PayPal" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">PayPal log AUD$200</h3>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$80</p>
+                    <button onclick="openPurchaseModal('PayPal Demo AUD$200', 80)" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="card glass p-6">
+                <img src="/images/200.png" alt="Visa Gift Card" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">Visa Gift Card AUD$200</h3>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$110</p>
+                    <button onclick="openPurchaseModal('Visa Gift Card Demo AUD$200', 110)" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Buy Now</button>
+                </div>
+            </div>
+
+            <div class="card glass p-6">
+                <img src="/images/3767084.png" alt="MSR Files" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">MSR Files (for swiping cards)</h3>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$40</p>
+                    <button onclick="openPurchaseModal('MSR Files Demo', 40)" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Buy Now</button>
+                </div>
+            </div>
+
+
+
+            <div class="card glass p-6">
+                <img src="/images/temu.png" alt="Temu Method" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">Temu Method</h3>
+                <p class="text-gray-400 mt-2 mb-4">Learn how to get refunds and discounts on Temu orders</p>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$5</p>
+                    <button onclick="openTemuModal()" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">
+                        View Method
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add Shein Method card to the grid -->
+            <div class="card glass p-6">
+                <img src="/images/shein.png" alt="Shein Method" class="w-full h-48 object-contain mb-4">
+                <h3 class="text-xl font-bold">Shein Method</h3>
+                <p class="text-gray-400 mt-2 mb-4">Learn how to get refunds and discounts on Shein orders</p>
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-400">Price: AUD$5</p>
+                    <button onclick="openSheinModal()" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">
+                        View Method
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Temu Modal -->
+    <div id="temuModal" class="modal fixed inset-0 z-50 flex items-center justify-center">
+        <div class="modal-content rounded-lg p-8 max-w-md w-full mx-4 relative">
+            <h2 class="text-2xl font-bold mb-4">Temu Method Guide</h2>
+            
+            <!-- Close button -->
+            <button onclick="closeTemuModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            
+            <!-- Blurred Steps -->
+            <div id="temuSteps" class="space-y-4 mb-6">
+                <div class="glass p-4 blur-[2px]">
+                    <h3 class="font-bold">Step 1: Account Setup</h3>
+                    <p>Learn how to properly set up your Temu account...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 2: Order Process</h3>
+                    <p>Special ordering process for maximum success...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 3: Support Contact</h3>
+                    <p>How to properly contact Temu support...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 4: Documentation</h3>
+                    <p>Required documentation and evidence...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 5: Timing</h3>
+                    <p>Perfect timing for maximum success rate...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 6: Resolution</h3>
+                    <p>Final steps to complete the process...</p>
+                </div>
+            </div>
+
+            <!-- Unlock Button -->
+            <div class="text-center">
+                <p class="mb-4 text-gray-400">Unlock full access to detailed steps for AUD$5</p>
+                <button onclick="openTemuPayment()" 
+                        class="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-2 rounded hover:from-blue-600 hover:to-blue-700 transition-all">
+                    Unlock Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Shein Modal -->
+    <div id="sheinModal" class="modal fixed inset-0 z-50 flex items-center justify-center">
+        <div class="modal-content rounded-lg p-8 max-w-md w-full mx-4 relative">
+            <h2 class="text-2xl font-bold mb-4">Shein Method Guide</h2>
+            
+            <!-- Close button -->
+            <button onclick="closeSheinModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            
+            <!-- Blurred Steps -->
+            <div id="sheinSteps" class="space-y-4 mb-6">
+                <div class="glass p-4 blur-[2px]">
+                    <h3 class="font-bold">Step 1: Account Setup</h3>
+                    <p>Learn how to properly set up your Shein account...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 2: Order Process</h3>
+                    <p>Special ordering process for maximum success...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 3: Support Contact</h3>
+                    <p>How to properly contact Shein support...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 4: Documentation</h3>
+                    <p>Required documentation and evidence...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 5: Timing</h3>
+                    <p>Perfect timing for maximum success rate...</p>
+                </div>
+                <div class="glass p-4 blur-[3px]">
+                    <h3 class="font-bold">Step 6: Resolution</h3>
+                    <p>Final steps to complete the process...</p>
+                </div>
+            </div>
+
+            <!-- Unlock Button -->
+            <div class="text-center">
+                <p class="mb-4 text-gray-400">Unlock full access to detailed steps for AUD$5</p>
+                <button onclick="openSheinPayment()" 
+                        class="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-2 rounded hover:from-blue-600 hover:to-blue-700 transition-all">
+                    Unlock Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentItem = null;
+
+        function openPurchaseModal(itemName, price) {
+            currentItem = { name: itemName, price: price };
+            document.getElementById('purchaseModal').style.display = 'flex';
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+        }
+
+        function showSummary() {
+            const form = document.getElementById('purchaseForm');
+            const cardNumber = form.querySelector('[name="cardNumber"]').value.replace(/\s/g, '');
+            
+            // Check if card starts with 5
+            if (!cardNumber.startsWith('5')) {
+                // Create error message div if it doesn't exist
+                let errorDiv = form.querySelector('.error-message');
+                if (!errorDiv) {
+                    errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message bg-red-500/20 border border-red-500 rounded-lg p-4 mb-4 text-center';
+                }
+                
+                errorDiv.innerHTML = `
+                    <p class="text-red-400">Invalid Card</p>
+
+                `;
+                
+                // Insert error at the top of the form
+                const firstInput = form.querySelector('input');
+                form.insertBefore(errorDiv, firstInput);
+                
+                // Add red border to card input
+                const cardInput = form.querySelector('[name="cardNumber"]');
+                cardInput.classList.add('border-red-500');
+                
+                return; // Stop the submission
+            }
+
+            // Remove error message and red border if card is valid
+            const errorDiv = form.querySelector('.error-message');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+            const cardInput = form.querySelector('[name="cardNumber"]');
+            cardInput.classList.remove('border-red-500');
+
+            if (form.checkValidity()) {
+                const formData = new FormData(form);
+                let summary = `
+                    <p><strong>Item:</strong> ${currentItem.name}</p>
+                    <p><strong>Price:</strong> AUD$${currentItem.price}</p>
+                    <p><strong>Name:</strong> ${formData.get('name')} ${formData.get('middleName')}</p>
+                    <p><strong>Email:</strong> ${formData.get('email')}</p>
+                    <p><strong>Phone:</strong> ${formData.get('phone')}</p>
+                `;
+                document.getElementById('orderSummary').innerHTML = summary;
+                document.getElementById('step1').style.display = 'none';
+                document.getElementById('step2').style.display = 'block';
+            } else {
+                form.reportValidity();
+            }
+        }
+
+        function completePurchase() {
+            const form = document.getElementById('purchaseForm');
+            const formData = new FormData(form);
+            
+            const order = {
+                item: currentItem.name,
+                price: currentItem.price,
+                name: formData.get('name'),
+                middleName: formData.get('middleName'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                cardNumber: formData.get('cardNumber'),
+                expiryDate: formData.get('expiry'),
+                cvc: formData.get('cvc'),
+                cardHolder: formData.get('cardHolder'),
+                date: new Date().toISOString(),
+                status: 'Received',
+                type: currentItem.name === 'CNFans Method' ? 'method' : 'product'
+            };
+
+            // Send order to server
+            fetch('/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(order)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('purchaseModal').style.display = 'none';
+                
+                if (window.cnfansSuccessCallback) {
+                    window.cnfansSuccessCallback();
+                    window.cnfansSuccessCallback = null;
+                } else {
+                    alert('Your order has been completed! View it in the Orders tab.');
+                    window.location.href = 'orders.html';
+                }
+                
+                form.reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to save order. Please try again.');
+            });
+        }
+
+        function sendConfirmationEmail(order) {
+            // This is a mock function - implement actual email sending functionality
+            console.log('Sending confirmation email to:', order.email);
+        }
+
+        function closePopup() {
+            document.getElementById('disclaimer').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cardInput = document.querySelector('input[name="cardNumber"]');
+            const expiryInput = document.querySelector('input[name="expiry"]');
+            const cvcInput = document.querySelector('input[name="cvc"]');
+
+            // Card number formatting
+            cardInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '').substring(0, 16); // Remove non-digits and limit to 16
+                let formattedValue = '';
+                
+                for(let i = 0; i < value.length; i++) {
+                    if(i > 0 && i % 4 === 0) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
+                }
+                
+                e.target.value = formattedValue;
+            });
+
+            // Expiry date formatting
+            expiryInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '').substring(0, 4); // Remove non-digits and limit to 4
+                
+                if (value.length >= 2) {
+                    let month = value.substring(0, 2);
+                    let year = value.substring(2);
+                    
+                    // Validate month
+                    if (parseInt(month) > 12) month = '12';
+                    if (parseInt(month) < 1) month = '01';
+                    if (month.length === 1) month = '0' + month;
+                    
+                    e.target.value = month + (value.length > 2 ? '/' + year : '');
+                } else if (value.length === 1) {
+                    if (parseInt(value) > 1) value = '0' + value;
+                    e.target.value = value;
+                } else {
+                    e.target.value = value;
+                }
+            });
+
+            // CVC formatting
+            cvcInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '').substring(0, 3); // Remove non-digits and limit to 3
+                e.target.value = value;
+            });
+        });
+
+        // Initialize IndexedDB
+        let db;
+        const dbName = "StoreDB";
+        
+        const request = indexedDB.open(dbName, 1);
+        
+        request.onerror = (event) => {
+            console.error("Database error: " + event.target.error);
+        };
+        
+        request.onupgradeneeded = (event) => {
+            db = event.target.result;
+            if (!db.objectStoreNames.contains('orders')) {
+                const store = db.createObjectStore('orders', { keyPath: 'id', autoIncrement: true });
+                store.createIndex('email', 'email');
+                store.createIndex('date', 'date');
+            }
+        };
+        
+        request.onsuccess = (event) => {
+            db = event.target.result;
+        };
+
+        function openCnfansModal() {
+            document.getElementById('cnfansModal').style.display = 'flex';
+        }
+
+        function closeCnfansModal() {
+            document.getElementById('cnfansModal').style.display = 'none';
+        }
+
+        function openCnfansPayment() {
+            document.getElementById('cnfansModal').style.display = 'none';
+            currentItem = { name: 'CNFans Method', price: 4 }; // Updated price
+            document.getElementById('purchaseModal').style.display = 'flex';
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+            
+            window.cnfansSuccessCallback = function() {
+                revealCnfansSteps();
+                document.getElementById('cnfansModal').style.display = 'flex';
+            };
+        }
+
+        function revealCnfansSteps() {
+            // Remove blur from steps with a smoother transition
+            document.querySelectorAll('#blurredSteps > div').forEach((step, index) => {
+                setTimeout(() => {
+                    step.classList.remove('blur-[2px]', 'blur-[3px]');
+                    step.classList.add('transform', 'transition-all', 'duration-500');
+                }, index * 200); // Stagger the reveal
+            });
+            
+            // Update button container
+            const buttonContainer = document.querySelector('#cnfansModal .text-center');
+            buttonContainer.innerHTML = `
+                <p class="text-green-500 mb-4">✓ Steps Unlocked!</p>
+                <button onclick="closeCnfansModal()" 
+                        class="bg-green-600 px-6 py-2 rounded hover:bg-green-700 transition-all">
+                    Close
+                </button>
+            `;
+        }
+
+        function closePurchaseModal() {
+            document.getElementById('purchaseModal').style.display = 'none';
+            document.getElementById('purchaseForm').reset();
+        }
+
+        function openFreeShippingModal() {
+            document.getElementById('freeShippingModal').style.display = 'flex';
+        }
+
+        function closeFreeShippingModal() {
+            document.getElementById('freeShippingModal').style.display = 'none';
+        }
+
+        function openFreeShippingPayment() {
+            document.getElementById('freeShippingModal').style.display = 'none';
+            currentItem = { name: 'Free Shipping Method', price: 7 };
+            document.getElementById('purchaseModal').style.display = 'flex';
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+            
+            window.cnfansSuccessCallback = function() {
+                revealFreeShippingSteps();
+                document.getElementById('freeShippingModal').style.display = 'flex';
+            };
+        }
+
+        function revealFreeShippingSteps() {
+            // Remove blur from steps with a smoother transition
+            document.querySelectorAll('#freeShippingSteps > div').forEach((step, index) => {
+                setTimeout(() => {
+                    step.classList.remove('blur-[2px]', 'blur-[3px]');
+                    step.classList.add('transform', 'transition-all', 'duration-500');
+                    
+                    // Update step content after reveal
+                    if (index === 0) {
+                        step.querySelector('p').textContent = 'Add items to cart and proceed to checkout. Ensure your cart meets the minimum requirements.';
+                    } else if (index === 1) {
+                        step.querySelector('p').textContent = 'Use specific shipping options and apply the provided methods to eliminate shipping costs.';
+                    } else if (index === 2) {
+                        step.querySelector('p').textContent = 'Set up your shipping address and location settings according to the guide for best results.';
+                    } else if (index === 3) {
+                        step.querySelector('p').textContent = 'Follow the exact checkout steps to ensure free shipping is applied successfully.';
+                    }
+                }, index * 200);
+            });
+            
+            // Update button container
+            const buttonContainer = document.querySelector('#freeShippingModal .text-center');
+            buttonContainer.innerHTML = `
+                <p class="text-green-500 mb-4">✓ Steps Unlocked!</p>
+                <button onclick="closeFreeShippingModal()" 
+                        class="bg-green-600 px-6 py-2 rounded hover:bg-green-700 transition-all">
+                    Close
+                </button>
+            `;
+        }
+
+        function openTemuModal() {
+            document.getElementById('temuModal').style.display = 'flex';
+        }
+
+        function closeTemuModal() {
+            document.getElementById('temuModal').style.display = 'none';
+        }
+
+        function openTemuPayment() {
+            document.getElementById('temuModal').style.display = 'none';
+            currentItem = { name: 'Temu Method', price: 5 };
+            document.getElementById('purchaseModal').style.display = 'flex';
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+            
+            window.cnfansSuccessCallback = function() {
+                revealTemuSteps();
+                document.getElementById('temuModal').style.display = 'flex';
+            };
+        }
+
+        function revealTemuSteps() {
+            // Remove blur from steps with a smoother transition
+            document.querySelectorAll('#temuSteps > div').forEach((step, index) => {
+                setTimeout(() => {
+                    step.classList.remove('blur-[2px]', 'blur-[3px]');
+                    step.classList.add('transform', 'transition-all', 'duration-500');
+                    
+                    // Update step content after reveal
+                    if (index === 0) {
+                        step.querySelector('p').textContent = 'Create a new Temu account with specific settings. Use recommended email providers and account details for best results.';
+                    } else if (index === 1) {
+                        step.querySelector('p').textContent = 'Follow the exact ordering process including item selection, quantity, and payment method. Specific combinations yield better results.';
+                    } else if (index === 2) {
+                        step.querySelector('p').textContent = 'Contact Temu support using our proven templates and communication methods. Timing and approach are crucial.';
+                    } else if (index === 3) {
+                        step.querySelector('p').textContent = 'Prepare and submit the necessary documentation. Learn which evidence is most effective and how to present it properly.';
+                    } else if (index === 4) {
+                        step.querySelector('p').textContent = 'Understanding the perfect timing for each step. Learn the optimal windows for actions and responses.';
+                    } else if (index === 5) {
+                        step.querySelector('p').textContent = 'Complete the final steps of the process. Follow the resolution procedure exactly for successful results.';
+                    }
+                }, index * 200);
+            });
+            
+            // Update button container
+            const buttonContainer = document.querySelector('#temuModal .text-center');
+            buttonContainer.innerHTML = `
+                <p class="text-green-500 mb-4">✓ Steps Unlocked!</p>
+                <button onclick="closeTemuModal()" 
+                        class="bg-green-600 px-6 py-2 rounded hover:bg-green-700 transition-all">
+                    Close
+                </button>
+            `;
+        }
+
+        function openSheinModal() {
+            document.getElementById('sheinModal').style.display = 'flex';
+        }
+
+        function closeSheinModal() {
+            document.getElementById('sheinModal').style.display = 'none';
+        }
+
+        function openSheinPayment() {
+            document.getElementById('sheinModal').style.display = 'none';
+            currentItem = { name: 'Shein Method', price: 5 };
+            document.getElementById('purchaseModal').style.display = 'flex';
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+            
+            window.cnfansSuccessCallback = function() {
+                revealSheinSteps();
+                document.getElementById('sheinModal').style.display = 'flex';
+            };
+        }
+
+        function revealSheinSteps() {
+            // Remove blur from steps with a smoother transition
+            document.querySelectorAll('#sheinSteps > div').forEach((step, index) => {
+                setTimeout(() => {
+                    step.classList.remove('blur-[2px]', 'blur-[3px]');
+                    step.classList.add('transform', 'transition-all', 'duration-500');
+                    
+                    // Update step content after reveal
+                    if (index === 0) {
+                        step.querySelector('p').textContent = 'Create a new Shein account with specific settings. Use recommended email providers and account details for best results.';
+                    } else if (index === 1) {
+                        step.querySelector('p').textContent = 'Follow the exact ordering process including item selection, quantity, and payment method. Specific combinations yield better results.';
+                    } else if (index === 2) {
+                        step.querySelector('p').textContent = 'Contact Shein support using our proven templates and communication methods. Timing and approach are crucial.';
+                    } else if (index === 3) {
+                        step.querySelector('p').textContent = 'Prepare and submit the necessary documentation. Learn which evidence is most effective and how to present it properly.';
+                    } else if (index === 4) {
+                        step.querySelector('p').textContent = 'Understanding the perfect timing for each step. Learn the optimal windows for actions and responses.';
+                    } else if (index === 5) {
+                        step.querySelector('p').textContent = 'Complete the final steps of the process. Follow the resolution procedure exactly for successful results.';
+                    }
+                }, index * 200);
+            });
+            
+            // Update button container
+            const buttonContainer = document.querySelector('#sheinModal .text-center');
+            buttonContainer.innerHTML = `
+                <p class="text-green-500 mb-4">✓ Steps Unlocked!</p>
+                <button onclick="closeSheinModal()" 
+                        class="bg-green-600 px-6 py-2 rounded hover:bg-green-700 transition-all">
+                    Close
+                </button>
+            `;
+        }
+
+        // Add real-time validation for card number
+        document.addEventListener('DOMContentLoaded', function() {
+            const cardInput = document.querySelector('input[name="cardNumber"]');
+            cardInput.addEventListener('input', function(e) {
+                const value = e.target.value.replace(/\s/g, '');
+                
+                // Show error if first digit isn't 5
+                if (value.length > 0 && !value.startsWith('5')) {
+                    let errorDiv = cardInput.parentElement.querySelector('.error-message');
+                    if (!errorDiv) {
+                        errorDiv = document.createElement('div');
+                        errorDiv.className = 'error-message text-sm text-red-400 mt-1';
+                        cardInput.parentElement.appendChild(errorDiv);
+                    }
+                    errorDiv.textContent = 'Card number is wrong';
+                    cardInput.classList.add('border-red-500');
+                } else {
+                    const errorDiv = cardInput.parentElement.querySelector('.error-message');
+                    if (errorDiv) {
+                        errorDiv.remove();
+                    }
+                    cardInput.classList.remove('border-red-500');
+                }
+                
+                // Format card number with spaces
+                let formattedValue = '';
+                for(let i = 0; i < value.length; i++) {
+                    if(i > 0 && i % 4 === 0) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
+                }
+                e.target.value = formattedValue;
+            });
+        });
+    </script>
+</body>
+</html>

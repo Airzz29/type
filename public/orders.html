@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #60a5fa;
+        }
+    </style>
+</head>
+<body class="text-gray-100">
+    <!-- Navigation Bar -->
+    <nav class="glass fixed w-full top-0 z-40 px-6 py-4 border-b border-white/10">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <h1 class="text-2xl font-bold">Demo Store</h1>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="/" class="nav-link">Home</a>
+                <a href="#" class="nav-link text-blue-400">Orders</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container mx-auto px-4 py-24">
+        <h1 class="text-4xl font-bold text-center mb-8">Your Orders</h1>
+        <div id="ordersContainer" class="space-y-4">
+            <!-- Orders will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        let db;
+        const dbName = "StoreDB";
+        
+        const request = indexedDB.open(dbName, 1);
+        
+        request.onerror = (event) => {
+            console.error("Database error: " + event.target.error);
+        };
+        
+        request.onsuccess = (event) => {
+            db = event.target.result;
+            loadOrders();
+        };
+
+        function loadOrders() {
+            const transaction = db.transaction(['orders'], 'readonly');
+            const store = transaction.objectStore('orders');
+            const request = store.getAll();
+
+            request.onsuccess = () => {
+                const orders = request.result;
+                const container = document.getElementById('ordersContainer');
+                container.innerHTML = '';
+
+                orders.forEach(order => {
+                    const orderDate = new Date(order.date).toLocaleString();
+                    const orderEl = document.createElement('div');
+                    orderEl.className = 'glass p-6 space-y-3';
+                    orderEl.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-bold">${order.item}</h3>
+                                <p class="text-gray-400">Order Date: ${orderDate}</p>
+                                <p class="text-gray-400">Price: AUD$${order.price}</p>
+                                <p class="text-gray-400">Status: ${order.status}</p>
+                                <p class="text-gray-400">Email: ${order.email}</p>
+                            </div>
+                            <div class="space-y-2">
+                                <button onclick="resendEmail(${order.id})" 
+                                        class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 w-full transition-colors">
+                                    Resend Email
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(orderEl);
+                });
+            };
+
+            request.onerror = (event) => {
+                console.error("Error loading orders:", event.target.error);
+                alert('Failed to load orders');
+            };
+        }
+
+        function resendEmail(orderId) {
+            const transaction = db.transaction(['orders'], 'readonly');
+            const store = transaction.objectStore('orders');
+            const request = store.get(orderId);
+
+            request.onsuccess = () => {
+                const order = request.result;
+                if (order) {
+                    console.log('Resending email for order:', orderId, 'to:', order.email);
+                    alert(`Confirmation email resent to ${order.email}`);
+                }
+            };
+        }
+
+        // Load orders when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            if (db) loadOrders();
+        });
+    </script>
+</body>
+</html> 
