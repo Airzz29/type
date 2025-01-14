@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: fraud-store
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: |
+      npm install --unsafe-perm
+      npm rebuild sqlite3
+      npm rebuild puppeteer
+    startCommand: |
+      mkdir -p /data
+      chmod 777 /data
+      node server.js
+    envVars:
+      - key: SESSION_SECRET
+        value: "780db9dcbc6995ec911b85f760395745aa75069fb384a50d340c4683b027f0d6"
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+    disk:
+      name: sqlite-data
+      mountPath: /data
+      sizeGB: 1
+    healthCheckPath: /
+    autoDeploy: true
+    nodeVersion: 18.x
+
+databases:
+  - name: sqlite
+    ipAllowList: 
