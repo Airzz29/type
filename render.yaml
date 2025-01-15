@@ -4,7 +4,10 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: npm install
+    buildCommand: |
+      npm ci
+      npm rebuild sqlite3
+      npm rebuild puppeteer
     startCommand: |
       mkdir -p /data
       chmod 777 /data
@@ -22,7 +25,7 @@ services:
       sizeGB: 1
     healthCheckPath: /
     autoDeploy: true
-    nodeVersion: 18.x
+    nodeVersion: 22.x
 
 databases:
   - name: sqlite
